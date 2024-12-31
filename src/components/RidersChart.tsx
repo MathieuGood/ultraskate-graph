@@ -34,6 +34,10 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 				<XAxis
 					dataKey="hour"
 					label={{ value: "Hours", position: "insideBottomRight", offset: -10 }}
+					type="number"
+					domain={[0, 24]}
+					tickCount={25} // Force the domain to be from 0 to 24
+					unit={"h"}
 				/>
 				<YAxis label={{ value: "Miles", angle: -90, position: "insideLeft" }} />
 				<Tooltip />
