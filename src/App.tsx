@@ -11,16 +11,21 @@ function App() {
 	return (
 		<div className="w-full mx-4 p-4">
 			<h1 className="text-2xl font-bold mb-1">Ultraskate Riders Graph</h1>
-			<select
-				id="ultraSelect"
-				value={selectedUltraIndex}
-				onChange={e => setSelectedUltraIndex(parseInt(e.target.value))}>
-				{events.map((event, index) => (
-					<option key={event.event_id} value={index}>
-						{event.event_name}
-					</option>
-				))}
-			</select>
+			<div className="flex">
+				<div className="border rounded p-2 mb-1">
+					<label htmlFor="ultraSelect">Event:</label>
+					<select
+						id="ultraSelect"
+						value={selectedUltraIndex}
+						onChange={e => setSelectedUltraIndex(parseInt(e.target.value))}>
+						{events.map((event, index) => (
+							<option key={event.event_id} value={index}>
+								{event.event_name}
+							</option>
+						))}
+					</select>
+				</div>
+			</div>
 			<RidersChart data={events[selectedUltraIndex].riders} />
 		</div>
 	)
