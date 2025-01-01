@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react"
 import {
 	LineChart,
@@ -14,6 +15,7 @@ import { ridersDataToChartData } from "../utils/graphUtils"
 import { Filters } from "../interfaces/Filters"
 import RidersFilters from "./RidersFilters"
 import { applyAllFilters } from "../utils/filtersUtils"
+import { RiderTooltip } from "./RiderTooltip"
 
 const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 	const [chartData, setChartData] = useState<
@@ -61,8 +63,13 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 						unit={"h"}
 					/>
 					<YAxis label={{ value: "Miles", angle: -90, position: "insideLeft" }} />
-					<Tooltip />
-					<Legend layout="horizontal" verticalAlign="top" align="left" />
+					<Tooltip content={RiderTooltip} />
+					<Legend
+						layout="horizontal"
+						verticalAlign="top"
+						align="left"
+						wrapperStyle={{ paddingBottom: "20px" }}
+					/>
 					{applyAllFilters(data, filters).map(rider => (
 						<Line
 							onMouseEnter={() => console.log(`focus on line ${rider.name}`)}
