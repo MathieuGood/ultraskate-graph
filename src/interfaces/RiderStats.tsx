@@ -1,5 +1,5 @@
 export interface RiderStats {
-	id: string
+	id: number | string
 	name: string
 	division: string
 	laps: number

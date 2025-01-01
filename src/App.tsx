@@ -1,15 +1,27 @@
 import "./App.css"
-import { RiderStats } from "./interfaces/RiderStats"
 import RidersChart from "./components/RidersChart"
-import { riders } from "./data/miami_2024.json"
+import ultraSkateData from "./data/ultraskateData.json"
+import { useState } from "react"
+import { UltraEvent } from "./interfaces/UltraEvent"
 
 function App() {
-	const ridersData: RiderStats[] = riders
+	const events: UltraEvent[] = ultraSkateData
+	const [selectedUltraIndex, setSelectedUltraIndex] = useState<number>(events.length - 1)
 
 	return (
 		<div className="w-full mx-4 p-4">
 			<h1 className="text-2xl font-bold mb-1">Ultraskate Riders Graph</h1>
-			<RidersChart data={ridersData} />
+			<select
+				id="ultraSelect"
+				value={selectedUltraIndex}
+				onChange={e => setSelectedUltraIndex(parseInt(e.target.value))}>
+				{events.map((event, index) => (
+					<option key={event.event_id} value={index}>
+						{event.event_name}
+					</option>
+				))}
+			</select>
+			<RidersChart data={events[selectedUltraIndex].riders} />
 		</div>
 	)
 }
