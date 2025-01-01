@@ -3,6 +3,7 @@ import RidersChart from "./components/RidersChart"
 import ultraSkateData from "./data/ultraskateData.json"
 import { useState } from "react"
 import { UltraEvent } from "./interfaces/UltraEvent"
+import UltraSelect from "./components/UltraSelect"
 
 function App() {
 	const events: UltraEvent[] = ultraSkateData
@@ -14,16 +15,11 @@ function App() {
 			<div className="flex">
 				<div className="border rounded p-2 mb-1">
 					<label htmlFor="ultraSelect">Event:</label>
-					<select
-						id="ultraSelect"
-						value={selectedUltraIndex}
-						onChange={e => setSelectedUltraIndex(parseInt(e.target.value))}>
-						{events.map((event, index) => (
-							<option key={event.event_id} value={index}>
-								{event.event_name}
-							</option>
-						))}
-					</select>
+					<UltraSelect
+						selectedUltraIndex={selectedUltraIndex}
+						setSelectedUltraIndex={setSelectedUltraIndex}
+						events={events}
+					/>
 				</div>
 			</div>
 			<RidersChart data={events[selectedUltraIndex].riders} />
