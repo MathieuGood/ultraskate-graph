@@ -2,7 +2,7 @@
 
 LineChart representation of Ultraskate rider stats.
 
-## Instal and run
+## Install and run
 
 Clone this repository
 
