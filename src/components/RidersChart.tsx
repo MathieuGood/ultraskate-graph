@@ -18,9 +18,11 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 		{ hour: number; [riderName: string]: number | null }[]
 	>([])
 	const [filters, setFilters] = useState({
-		numberOfRiders: 5,
+		numberOfRiders: 15,
 		country: "",
-		discipline: ""
+		discipline: "",
+		division: "",
+		age: ""
 	})
 
 	useEffect(() => {
@@ -33,6 +35,8 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 		return data
 			.filter(rider => applyCountryFilter(rider))
 			.filter(rider => applyDisciplineFilter(rider))
+			.filter(rider => applyDivisionFilter(rider))
+			.filter(rider => applyAgeFilter(rider))
 			.slice(0, filters.numberOfRiders)
 	}
 
@@ -44,11 +48,20 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 		return filters.discipline ? rider.discipline === filters.discipline : true
 	}
 
+	const applyDivisionFilter = (rider: RiderStats) => {
+		return filters.division ? rider.division === filters.division : true
+	}
+
+	const applyAgeFilter = (rider: RiderStats) => {
+		return filters.age ? rider.age === filters.age : true
+	}
+
 	return (
 		<>
-			<div className="filters">
-				<div>
-					<label htmlFor="numberOfRiders">Number of Riders:</label>
+			<div className="filters flex flex-wrap gap-2">
+			<div className="border rounded p-2">
+					<label htmlFor="numberOfRiders">Riders to display:</label>
+					<span>{filters.numberOfRiders}</span>
 					<input
 						id="numberOfRiders"
 						type="range"
@@ -60,9 +73,8 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 							setFilters({ ...filters, numberOfRiders: parseInt(e.target.value) })
 						}
 					/>
-					<span>{filters.numberOfRiders} riders displayed</span>
 				</div>
-				<div>
+				<div className="border rounded p-2">
 					<label htmlFor="countryFilter">Country:</label>
 					<select
 						id="countryFilter"
@@ -76,7 +88,7 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 						))}
 					</select>
 				</div>
-				<div>
+				<div className="border rounded p-2">
 					<label htmlFor="disciplineFilter">Discipline:</label>
 					<select
 						id="disciplineFilter"
@@ -86,6 +98,34 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 						{[...new Set(data.map(rider => rider.discipline))].map(discipline => (
 							<option key={discipline} value={discipline}>
 								{discipline}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="border rounded p-2">
+					<label htmlFor="divisionFilter">Division:</label>
+					<select
+						id="divisionFilter"
+						value={filters.division}
+						onChange={e => setFilters({ ...filters, division: e.target.value })}>
+						<option value="">All</option>
+						{[...new Set(data.map(rider => rider.division))].map(division => (
+							<option key={division} value={division}>
+								{division}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="border rounded p-2">
+					<label htmlFor="ageFilter">Age category:</label>
+					<select
+						id="ageFilter"
+						value={filters.age}
+						onChange={e => setFilters({ ...filters, age: e.target.value })}>
+						<option value="">All</option>
+						{[...new Set(data.map(rider => rider.age))].map(age => (
+							<option key={age} value={age}>
+								{age}
 							</option>
 						))}
 					</select>
@@ -114,10 +154,11 @@ const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 						unit={"h"}
 					/>
 					<YAxis label={{ value: "Miles", angle: -90, position: "insideLeft" }} />
-					<Tooltip filterNull={false} />
-					<Legend layout="vertical" verticalAlign="top" align="left" />
+					<Tooltip />
+					<Legend layout="horizontal" verticalAlign="top" align="left" />
 					{applyAllFilters(data).map(rider => (
 						<Line
+							onMouseEnter={() => console.log(`focus on line ${rider.name}`)}
 							key={rider.id}
 							type="monotone"
 							dataKey={rider.name}
