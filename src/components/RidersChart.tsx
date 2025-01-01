@@ -11,48 +11,99 @@ import {
 } from "recharts"
 import { RiderStats } from "../interfaces/RiderStats"
 import { ridersDataToChartData } from "../utils/graphUtils"
+import { getFlagEmoji } from "../utils/flagUtils"
 
 const RidersChart: React.FC<{ data: RiderStats[] }> = ({ data }) => {
 	const [chartData, setChartData] = useState<
 		{ hour: number; [riderName: string]: number | null }[]
 	>([])
-
-	const [numberOfRidersDisplayed, setNumberOfRidersDisplayed] = useState<number>(10)
+	const [filters, setFilters] = useState({
+		numberOfRiders: 5,
+		country: "",
+		discipline: ""
+	})
 
 	useEffect(() => {
-		console.log("Riders Data", data)
-		console.log("Chart Data", ridersDataToChartData(data))
-		setChartData(ridersDataToChartData(data))
-	}, [data])
+		const filteredData = applyAllFilters(data)
+		setChartData(ridersDataToChartData(filteredData))
+		console.log("Data updated", filteredData)
+	}, [filters, data])
 
 	const applyAllFilters = (data: RiderStats[]) => {
-		const filteredData = applyNumberOfRidersFilter(data)
-		return filteredData
+		return data
+			.filter(rider => applyCountryFilter(rider))
+			.filter(rider => applyDisciplineFilter(rider))
+			.slice(0, filters.numberOfRiders)
 	}
 
-	const applyNumberOfRidersFilter = (data: RiderStats[]) => {
-		return data.slice(0, numberOfRidersDisplayed)
+	const applyCountryFilter = (rider: RiderStats) => {
+		return filters.country ? rider.country === filters.country : true
+	}
+
+	const applyDisciplineFilter = (rider: RiderStats) => {
+		return filters.discipline ? rider.discipline === filters.discipline : true
 	}
 
 	return (
 		<>
 			<div className="filters">
-				<input
-					type="range"
-					min="1"
-					max={data.length}
-					step="1"
-					value={numberOfRidersDisplayed}
-					onChange={value => {
-						console.log(value.target.value)
-						setNumberOfRidersDisplayed(parseInt(value.target.value))
-						data = data.slice(0, parseInt(value.target.value))
-					}}
-				/>
-				<span>{numberOfRidersDisplayed} riders displayed</span>
+				<div>
+					<label htmlFor="numberOfRiders">Number of Riders:</label>
+					<input
+						id="numberOfRiders"
+						type="range"
+						min="1"
+						max={data.length}
+						step="1"
+						value={filters.numberOfRiders}
+						onChange={e =>
+							setFilters({ ...filters, numberOfRiders: parseInt(e.target.value) })
+						}
+					/>
+					<span>{filters.numberOfRiders} riders displayed</span>
+				</div>
+				<div>
+					<label htmlFor="countryFilter">Country:</label>
+					<select
+						id="countryFilter"
+						value={filters.country}
+						onChange={e => setFilters({ ...filters, country: e.target.value })}>
+						<option value="">All</option>
+						{[...new Set(data.map(rider => rider.country))].map(country => (
+							<option key={country} value={country}>
+								{getFlagEmoji(country)} {country}
+							</option>
+						))}
+					</select>
+				</div>
+				<div>
+					<label htmlFor="disciplineFilter">Discipline:</label>
+					<select
+						id="disciplineFilter"
+						value={filters.discipline}
+						onChange={e => setFilters({ ...filters, discipline: e.target.value })}>
+						<option value="">All</option>
+						{[...new Set(data.map(rider => rider.discipline))].map(discipline => (
+							<option key={discipline} value={discipline}>
+								{discipline}
+							</option>
+						))}
+					</select>
+				</div>
 			</div>
 			<ResponsiveContainer width="100%" height={600}>
-				<LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+				<LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+					{chartData.length === 0 && (
+						<text
+							x="50%"
+							y="50%"
+							textAnchor="middle"
+							dominantBaseline="middle"
+							style={{ fontSize: "16px", fill: "#999" }}>
+							No data available for the selected filters
+						</text>
+					)}
+
 					<CartesianGrid strokeDasharray="3 3" />
 					<XAxis
 						dataKey="hour"
