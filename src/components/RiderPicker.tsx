@@ -33,7 +33,11 @@ const RiderPicker: React.FC<{ ridersList: RiderInfo[] }> = ({ ridersList }) => {
 			}}
 			style={{ width: 500 }}
 			renderInput={params => (
-				<TextField {...params} label="Select Riders" placeholder="Select Riders" />
+				<TextField
+					{...params}
+					label="Select Riders [NON FUNCTIONAL]"
+					placeholder="Select Riders [NON FUNCTIONAL]"
+				/>
 			)}
 		/>
 	)
