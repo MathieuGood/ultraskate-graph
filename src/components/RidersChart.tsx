@@ -65,6 +65,12 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 						vAxis: {
 							title: "Miles",
 							format: "# miles"
+						},
+						explorer: {
+							actions: ["dragToZoom", "rightClickToReset"],
+							axis: "horizontal",
+							keepInBounds: true,
+							maxZoomIn: 10.0
 						}
 					}}
 					legendToggle
