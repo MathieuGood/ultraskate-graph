@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TooltipProps } from "recharts"
 import { hoursToTime } from "../utils/dateUtils"
 
