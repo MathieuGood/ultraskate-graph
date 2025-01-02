@@ -10,22 +10,13 @@ import {
 	ResponsiveContainer
 } from "recharts"
 import { RiderStats } from "../interfaces/RiderStats"
-import {
-	ridersDataToChartData as ridersDataToRechartsData,
-	ridersDataToGoogleChartData
-} from "../utils/graphUtils"
+import { ridersDataToRechartsData, ridersDataToGoogleChartsData } from "../utils/graphUtils"
 import { Filters } from "../interfaces/Filters"
 import RidersFilters from "./RidersFilters"
 import { applyAllFilters } from "../utils/filtersUtils"
 import { RiderTooltip } from "./RiderTooltip"
 import Chart from "react-google-charts"
-
-interface GoogleChartData extends Array<string | number | null> {
-	hour?: number
-}
-interface RechartsData {
-	[key: string]: number | string
-}
+import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
 
 const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib }) => {
 	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[]>([])
@@ -46,7 +37,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 			setChartData(rechartsData)
 		}
 		if (lib === "google-charts") {
-			const googleChartData = ridersDataToGoogleChartData(filteredData)
+			const googleChartData = ridersDataToGoogleChartsData(filteredData)
 			setChartData(googleChartData)
 		}
 	}, [filters, data, lib])

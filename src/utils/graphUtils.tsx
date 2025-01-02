@@ -6,7 +6,7 @@ const getUniqueHours = (riders: RiderStats[]): number[] => {
 	return uniqueSortedHours
 }
 
-export const ridersDataToChartData = (riders: RiderStats[]) => {
+export const ridersDataToRechartsData = (riders: RiderStats[]) => {
 	const uniqueHours = getUniqueHours(riders)
 
 	return uniqueHours.map(uniqueHour => {
@@ -25,7 +25,7 @@ export const ridersDataToChartData = (riders: RiderStats[]) => {
 	})
 }
 
-export const ridersDataToGoogleChartData = (riders: RiderStats[]) => {
+export const ridersDataToGoogleChartsData = (riders: RiderStats[]) => {
 	const uniqueHours = getUniqueHours(riders)
 
 	const googleChartData = uniqueHours.map(uniqueHour => {
