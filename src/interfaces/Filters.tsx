@@ -4,4 +4,5 @@ export interface Filters {
 	discipline: string
 	division: string
 	age: string
+	names: string[]
 }

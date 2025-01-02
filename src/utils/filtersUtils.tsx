@@ -8,6 +8,7 @@ export const applyAllFilters = (data: RiderStats[], filters: Filters) => {
 		.filter(rider => applyDisciplineFilter(rider, filters))
 		.filter(rider => applyDivisionFilter(rider, filters))
 		.filter(rider => applyAgeFilter(rider, filters))
+		.filter(rider => applyNamesFilter(rider, filters))
 		.slice(0, filters.numberOfRiders)
 }
 
@@ -25,6 +26,10 @@ const applyDivisionFilter = (rider: RiderStats, filters: Filters) => {
 
 const applyAgeFilter = (rider: RiderStats, filters: Filters) => {
 	return filters.age ? rider.age === filters.age : true
+}
+
+const applyNamesFilter = (rider: RiderStats, filters: Filters) => {
+	return filters.names ? filters.names.some(name => rider.name.includes(name)) : true
 }
 
 export const getRidersList = (data: RiderStats[]): RiderInfo[] => {

@@ -22,10 +22,8 @@ const RidersFilters: React.FC<{
 	return (
 		<div className="filters flex flex-wrap gap-2">
 			<div className="border rounded p-2">
-				<label htmlFor="riders">Riders: </label>{" "}
+				<RiderPicker ridersList={ridersList} />
 			</div>
-
-			<RiderPicker ridersList={ridersList} />
 
 			<div className="border rounded p-2">
 				<label htmlFor="numberOfRiders">Riders to display:</label>{" "}

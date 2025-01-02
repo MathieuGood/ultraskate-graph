@@ -4,6 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@mui/icons-material/CheckBox"
 import { RiderInfo } from "../interfaces/RiderInfo"
+import { getFlagEmoji } from "../utils/flagUtils"
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
@@ -26,13 +27,13 @@ const RiderPicker: React.FC<{ ridersList: RiderInfo[] }> = ({ ridersList }) => {
 							style={{ marginRight: 8 }}
 							checked={selected}
 						/>
-						{option.name}
+						{`${getFlagEmoji(option.country)} ${option.name} #${option.rank}`}
 					</li>
 				)
 			}}
 			style={{ width: 500 }}
 			renderInput={params => (
-				<TextField {...params} label="Checkboxes TEST" placeholder="Favorites" />
+				<TextField {...params} label="Select Riders" placeholder="Select Riders" />
 			)}
 		/>
 	)
