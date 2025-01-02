@@ -7,7 +7,7 @@ import UltraSelect from "./components/UltraSelect"
 
 function App() {
 	const events: UltraEvent[] = ultraSkateData
-	const [selectedUltraIndex, setSelectedUltraIndex] = useState<number>(events.length - 1)
+	const [selectedUltraIndex, setSelectedUltraIndex] = useState<number>(events.length - 3)
 	const [selectedLib, setSelectedLib] = useState<string>("google-charts")
 
 	return (

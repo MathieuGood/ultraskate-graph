@@ -54,7 +54,17 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 					data={chartData}
 					options={{
 						title: "Riders Stats",
-						interpolateNulls: true
+						interpolateNulls: true,
+						tooltip: { isHtml: true },
+						hAxis: {
+							title: "Hours",
+							format: "#h",
+							ticks: Array.from({ length: 25 }, (_, i) => i)
+						},
+						vAxis: {
+							title: "Miles",
+							format: "# miles"
+						}
 					}}
 					legendToggle
 				/>

@@ -10,6 +10,10 @@ const RidersFilters: React.FC<{
 	return (
 		<div className="filters flex flex-wrap gap-2">
 			<div className="border rounded p-2">
+				<label htmlFor="riders">Riders: </label>{" "}
+			</div>
+
+			<div className="border rounded p-2">
 				<label htmlFor="numberOfRiders">Riders to display:</label>{" "}
 				<span>{filters.numberOfRiders}</span>
 				<input
