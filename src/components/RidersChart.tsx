@@ -21,6 +21,7 @@ import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
 const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib }) => {
 	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[]>([])
 
+
 	const [filters, setFilters] = useState<Filters>({
 		numberOfRiders: 10,
 		country: "",
@@ -41,6 +42,8 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 			setChartData(googleChartData)
 		}
 	}, [filters, data, lib])
+
+
 
 	return (
 		<>

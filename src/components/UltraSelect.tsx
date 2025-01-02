@@ -1,5 +1,6 @@
 import React from "react"
 import { UltraEvent } from "../interfaces/UltraEvent"
+import { MenuItem, Select } from "@mui/material"
 
 interface UltraSelectProps {
 	selectedUltraIndex: number
@@ -7,19 +8,27 @@ interface UltraSelectProps {
 	events: UltraEvent[]
 }
 
-const UltraSelect: React.FC<UltraSelectProps> = ({ selectedUltraIndex, setSelectedUltraIndex, events }) => {
+const UltraSelect: React.FC<UltraSelectProps> = ({
+	selectedUltraIndex,
+	setSelectedUltraIndex,
+	events
+}) => {
 	return (
-		<select
-			id="ultraSelect"
-			value={selectedUltraIndex}
-			onChange={e => setSelectedUltraIndex(parseInt(e.target.value))}>
-			{events.map((event, index) => (
-				<option key={event.event_id} value={index}>
-					{event.event_name}
-				</option>
-			))}
-		</select>
+		<>
+			<label htmlFor="ultraSelect">Event:</label>
+			<Select
+				labelId="ultraSelect-label"
+				id="ultraSelect"
+				value={selectedUltraIndex}
+				onChange={e => setSelectedUltraIndex(parseInt(e.target.value as string))}>
+				{events.map((event, index) => (
+					<MenuItem key={event.event_id} value={index}>
+						{event.event_name}
+					</MenuItem>
+				))}
+			</Select>
+		</>
 	)
 }
 
-export default UltraSelect 
+export default UltraSelect

@@ -1,88 +1,115 @@
 import { getFlagEmoji } from "../utils/flagUtils"
 import { Filters } from "../interfaces/Filters"
 import { RiderStats } from "../interfaces/RiderStats"
+import { MenuItem, Select, Slider } from "@mui/material"
+import RiderPicker from "./RiderPicker"
+import { useEffect, useState } from "react"
+import { getRidersList } from "../utils/filtersUtils"
+import { RiderInfo } from "../interfaces/RiderInfo"
 
 const RidersFilters: React.FC<{
 	data: RiderStats[]
 	filters: Filters
 	setFilters: (filters: Filters) => void
 }> = ({ data, filters, setFilters }) => {
+	const [ridersList, setRidersList] = useState<RiderInfo[]>([])
+
+	useEffect(() => {
+		const ridersInfo = getRidersList(data)
+		setRidersList(ridersInfo)
+	}, [data])
+
 	return (
 		<div className="filters flex flex-wrap gap-2">
 			<div className="border rounded p-2">
 				<label htmlFor="riders">Riders: </label>{" "}
 			</div>
 
+			<RiderPicker ridersList={ridersList} />
+
 			<div className="border rounded p-2">
 				<label htmlFor="numberOfRiders">Riders to display:</label>{" "}
 				<span>{filters.numberOfRiders}</span>
-				<input
+				<Slider
 					id="numberOfRiders"
-					type="range"
-					min="1"
+					min={1}
 					max={data.length}
-					step="1"
+					step={1}
 					value={filters.numberOfRiders}
-					onChange={e =>
-						setFilters({ ...filters, numberOfRiders: parseInt(e.target.value) })
+					onChange={(_e, value) =>
+						setFilters({ ...filters, numberOfRiders: value as number })
 					}
+					valueLabelDisplay="auto"
 				/>
 			</div>
+
 			<div className="border rounded p-2">
-				<label htmlFor="countryFilter">Country:</label>
-				<select
+				<label htmlFor="countryFilter">Country </label>
+				<Select
 					id="countryFilter"
 					value={filters.country}
-					onChange={e => setFilters({ ...filters, country: e.target.value })}>
-					<option value="">All</option>
+					onChange={e => setFilters({ ...filters, country: e.target.value as string })}
+					displayEmpty>
+					<MenuItem value="">
+						<em>All</em>
+					</MenuItem>
 					{[...new Set(data.map(rider => rider.country))].map(country => (
-						<option key={country} value={country}>
+						<MenuItem key={country} value={country}>
 							{getFlagEmoji(country)} {country}
-						</option>
+						</MenuItem>
 					))}
-				</select>
+				</Select>
 			</div>
 			<div className="border rounded p-2">
-				<label htmlFor="disciplineFilter">Discipline:</label>
-				<select
+				<label htmlFor="disciplineFilter">Discipline </label>
+				<Select
 					id="disciplineFilter"
 					value={filters.discipline}
-					onChange={e => setFilters({ ...filters, discipline: e.target.value })}>
-					<option value="">All</option>
+					onChange={e => setFilters({ ...filters, discipline: e.target.value as string })}
+					displayEmpty>
+					<MenuItem value="">
+						<em>All</em>
+					</MenuItem>
 					{[...new Set(data.map(rider => rider.discipline))].map(discipline => (
-						<option key={discipline} value={discipline}>
+						<MenuItem key={discipline} value={discipline}>
 							{discipline}
-						</option>
+						</MenuItem>
 					))}
-				</select>
+				</Select>
 			</div>
 			<div className="border rounded p-2">
-				<label htmlFor="divisionFilter">Division:</label>
-				<select
+				<label htmlFor="divisionFilter">Division </label>
+				<Select
 					id="divisionFilter"
 					value={filters.division}
-					onChange={e => setFilters({ ...filters, division: e.target.value })}>
-					<option value="">All</option>
+					onChange={e => setFilters({ ...filters, division: e.target.value as string })}
+					displayEmpty>
+					<MenuItem value="">
+						<em>All</em>
+					</MenuItem>
 					{[...new Set(data.map(rider => rider.division))].map(division => (
-						<option key={division} value={division}>
+						<MenuItem key={division} value={division}>
 							{division}
-						</option>
+						</MenuItem>
 					))}
-				</select>
+				</Select>
 			</div>
 			<div className="border rounded p-2">
-				<label htmlFor="ageFilter">Age category:</label>
-				<select
+				<label htmlFor="ageFilter">Age </label>
+				<Select
 					id="ageFilter"
 					value={filters.age}
-					onChange={e => setFilters({ ...filters, age: e.target.value })}>
-					<option value="">All</option>
+					onChange={e => setFilters({ ...filters, age: e.target.value as string })}
+					displayEmpty>
+					<MenuItem value="">
+						<em>All</em>
+					</MenuItem>
 					{[...new Set(data.map(rider => rider.age))].map(age => (
-						<option key={age} value={age}>
+						<MenuItem key={age} value={age}>
 							{age}
-						</option>
+						</MenuItem>
 					))}
-				</select>
+				</Select>
 			</div>
 		</div>
 	)

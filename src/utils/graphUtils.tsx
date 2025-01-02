@@ -43,7 +43,6 @@ export const ridersDataToGoogleChartsData = (riders: RiderStats[]) => {
 
 	const ridersNames = riders.map(rider => rider.name)
 	googleChartData.unshift(["Hour", ...ridersNames])
-	console.log("Riders names", ridersNames)
 
 	return googleChartData
 }

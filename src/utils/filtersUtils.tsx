@@ -1,4 +1,5 @@
 import { Filters } from "../interfaces/Filters"
+import { RiderInfo } from "../interfaces/RiderInfo"
 import { RiderStats } from "../interfaces/RiderStats"
 
 export const applyAllFilters = (data: RiderStats[], filters: Filters) => {
@@ -24,4 +25,17 @@ const applyDivisionFilter = (rider: RiderStats, filters: Filters) => {
 
 const applyAgeFilter = (rider: RiderStats, filters: Filters) => {
 	return filters.age ? rider.age === filters.age : true
+}
+
+export const getRidersList = (data: RiderStats[]): RiderInfo[] => {
+	return data.map((rider, index) => {
+		return {
+			rank: index + 1,
+			name: rider.name,
+			country: rider.country,
+			division: rider.division,
+			discipline: rider.discipline,
+			age: rider.age
+		}
+	})
 }
