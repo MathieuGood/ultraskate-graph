@@ -53,6 +53,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 					width={"100%"}
 					height={"600px"}
 					data={chartData}
+					legendToggle
 					options={{
 						title: "Riders Stats",
 						interpolateNulls: true,
@@ -73,7 +74,6 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 							maxZoomIn: 10.0
 						}
 					}}
-					legendToggle
 				/>
 			)}
 
@@ -112,7 +112,6 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 						/>
 						{applyAllFilters(data, filters).map(rider => (
 							<Line
-								onMouseEnter={() => console.log(`focus on line ${rider.name}`)}
 								key={rider.id}
 								type="monotone"
 								dataKey={rider.name}
