@@ -20,14 +20,18 @@ import { applyAllFilters } from "../utils/filtersUtils"
 import { RiderTooltip } from "./RiderTooltip"
 import Chart from "react-google-charts"
 
+interface GoogleChartData extends Array<string | number | null> {
+	hour?: number
+}
+interface RechartsData {
+	[key: string]: number | string
+}
+
 const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib }) => {
-	const [rechartsData, setRechartsData] = useState<
-		{ hour: number; [riderName: string]: number | null }[]
-	>([])
-	const [googleChartData, setGoogleChartData] = useState<(string | number | null)[][]>([])
+	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[]>([])
 
 	const [filters, setFilters] = useState<Filters>({
-		numberOfRiders: 30,
+		numberOfRiders: 10,
 		country: "",
 		discipline: "",
 		division: "",
@@ -36,14 +40,15 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 
 	useEffect(() => {
 		const filteredData = applyAllFilters(data, filters)
+
 		if (lib === "recharts") {
-			const updatedChartData = ridersDataToRechartsData(filteredData)
-			setRechartsData(updatedChartData)
-		} else {
-			const googleChartData = ridersDataToGoogleChartData(filteredData)
-			setGoogleChartData(googleChartData)
+			const rechartsData = ridersDataToRechartsData(filteredData)
+			setChartData(rechartsData)
 		}
-		console.log("LIB", lib)
+		if (lib === "google-charts") {
+			const googleChartData = ridersDataToGoogleChartData(filteredData)
+			setChartData(googleChartData)
+		}
 	}, [filters, data, lib])
 
 	return (
@@ -55,7 +60,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 					chartType="LineChart"
 					width={"100%"}
 					height={"600px"}
-					data={googleChartData}
+					data={chartData}
 					options={{
 						title: "Riders Stats",
 						interpolateNulls: true
@@ -65,11 +70,11 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 			)}
 
 			{lib === "recharts" && (
-				<ResponsiveContainer width="100%" height={800}>
+				<ResponsiveContainer width="100%" height={600}>
 					<LineChart
-						data={rechartsData}
+						data={chartData}
 						margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-						{rechartsData.length === 0 && (
+						{chartData.length === 0 && (
 							<text
 								x="50%"
 								y="50%"
