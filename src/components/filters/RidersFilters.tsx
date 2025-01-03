@@ -6,6 +6,7 @@ import RiderPicker from "./RiderPicker"
 import { useEffect, useState } from "react"
 import { getRidersList } from "../../utils/filtersUtils"
 import { RiderInfo } from "../../interfaces/RiderInfo"
+import { getDisciplineEmoji } from "../../utils/disciplineUtils"
 
 const RidersFilters: React.FC<{
 	data: RiderStats[]
@@ -57,7 +58,7 @@ const RidersFilters: React.FC<{
 					</MenuItem>
 					{[...new Set(data.map(rider => rider.discipline))].map(discipline => (
 						<MenuItem key={discipline} value={discipline}>
-							{discipline}
+							{`${getDisciplineEmoji(discipline)} ${discipline}`}
 						</MenuItem>
 					))}
 				</Select>

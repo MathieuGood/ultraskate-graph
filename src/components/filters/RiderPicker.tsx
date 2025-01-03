@@ -22,8 +22,10 @@ const RiderPicker: React.FC<{
 			options={ridersList}
 			value={
 				filters.names.length > 0 || filters.names[0] !== ""
-					? (applyNamesFilter(ridersList, filters) as RiderInfo[])
-					: (applyCategoryFilters(ridersList, filters) as RiderInfo[])
+					? (console.log("applyNamesFilter in Autcomplete value"),
+					  applyNamesFilter(ridersList, filters) as RiderInfo[])
+					: (console.log("applyCategoryFilter in Autcomplete value"),
+					  applyCategoryFilters(ridersList, filters) as RiderInfo[])
 			}
 			onChange={(_e, value) => {
 				console.log("Autocomplete onChange", value)

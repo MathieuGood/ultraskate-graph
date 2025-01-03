@@ -3,19 +3,21 @@ import { RiderInfo } from "../interfaces/RiderInfo"
 import { RiderStats } from "../interfaces/RiderStats"
 
 export const applyCategoryFilters = (data: RiderStats[] | RiderInfo[], filters: Filters) => {
-	console.log("applyCategoryFilters FUNCTION")
-	console.log("filters", filters)
 	const filteredRiders = data
 		.filter(rider => countryFilter(rider, filters))
 		.filter(rider => disciplineFilter(rider, filters))
 		.filter(rider => divisionFilter(rider, filters))
 		.filter(rider => ageFilter(rider, filters))
-	console.log("filteredRiders", filteredRiders)
+	console.log(" >>> filters", filters)
+	console.log(" >>> filteredRiders", filteredRiders)
 	return filteredRiders
 }
 
 export const applyNamesFilter = (data: RiderStats[] | RiderInfo[], filters: Filters) => {
-	return data.filter(rider => namesFilter(rider, filters))
+	const filteredRiders = data.filter(rider => namesFilter(rider, filters))
+	console.log(" >>> filters", filters)
+	console.log(" >>> filteredRiders", filteredRiders)
+	return filteredRiders
 }
 
 const countryFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {

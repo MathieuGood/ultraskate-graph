@@ -13,7 +13,7 @@ import { RiderStats } from "../interfaces/RiderStats"
 import { ridersDataToRechartsData, ridersDataToGoogleChartsData } from "../utils/graphUtils"
 import { Filters } from "../interfaces/Filters"
 import RidersFilters from "./filters/RidersFilters"
-import { applyCategoryFilters, applyNamesFilter } from "../utils/filtersUtils"
+import { applyCategoryFilters, applyNamesFilter, top10RidersFilter } from "../utils/filtersUtils"
 import { RiderTooltip } from "./RiderTooltip"
 import Chart from "react-google-charts"
 import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
@@ -21,26 +21,23 @@ import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
 const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib }) => {
 	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[]>([])
 
-	const [filters, setFilters] = useState<Filters>({
-		country: "",
-		discipline: "",
-		division: "",
-		age: "",
-		names: data.slice(0, 10).map(rider => rider.name)
-	})
+	const [filters, setFilters] = useState<Filters>(top10RidersFilter(data))
 
 	useEffect(() => {
+		console.log("RidersChart useEffect")
+		console.log("filters", filters)
 		const filteredData =
 			filters.names.length === 0 || filters.names[0] === ""
-				? applyCategoryFilters(data, filters)
-				: applyNamesFilter(data, filters)
+				? (console.log("applyCategoryFilters in useEffect"),
+				  applyCategoryFilters(data, filters))
+				: (console.log("applyNamesFilters in useEffect"), applyNamesFilter(data, filters))
 
 		if (lib === "recharts") {
-			const rechartsData = ridersDataToRechartsData(filteredData)
+			const rechartsData = ridersDataToRechartsData(filteredData as RiderStats[])
 			setChartData(rechartsData)
 		}
 		if (lib === "google-charts") {
-			const googleChartData = ridersDataToGoogleChartsData(filteredData)
+			const googleChartData = ridersDataToGoogleChartsData(filteredData as RiderStats[])
 			setChartData(googleChartData)
 		}
 	}, [filters, data, lib])
@@ -116,7 +113,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 						/>
 						{applyCategoryFilters(data, filters).map(rider => (
 							<Line
-								key={rider.id}
+								key={rider.name}
 								type="monotone"
 								dataKey={rider.name}
 								stroke={`#${Math.floor(Math.random() * 16777215).toString(16)}`}
