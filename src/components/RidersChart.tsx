@@ -12,8 +12,8 @@ import {
 import { RiderStats } from "../interfaces/RiderStats"
 import { ridersDataToRechartsData, ridersDataToGoogleChartsData } from "../utils/graphUtils"
 import { Filters } from "../interfaces/Filters"
-import RidersFilters from "./RidersFilters"
-import { applyAllFilters } from "../utils/filtersUtils"
+import RidersFilters from "./filters/RidersFilters"
+import { applyCategoryFilters, applyNamesFilter } from "../utils/filtersUtils"
 import { RiderTooltip } from "./RiderTooltip"
 import Chart from "react-google-charts"
 import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
@@ -22,16 +22,18 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[]>([])
 
 	const [filters, setFilters] = useState<Filters>({
-		numberOfRiders: 10,
 		country: "",
 		discipline: "",
 		division: "",
 		age: "",
-		names: [""]
+		names: data.slice(0, 10).map(rider => rider.name)
 	})
 
 	useEffect(() => {
-		const filteredData = applyAllFilters(data, filters)
+		const filteredData =
+			filters.names.length === 0 || filters.names[0] === ""
+				? applyCategoryFilters(data, filters)
+				: applyNamesFilter(data, filters)
 
 		if (lib === "recharts") {
 			const rechartsData = ridersDataToRechartsData(filteredData)
@@ -44,7 +46,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 	}, [filters, data, lib])
 
 	return (
-		<>
+		<div className="mt-4">
 			<RidersFilters data={data} filters={filters} setFilters={setFilters} />
 
 			{lib === "google-charts" && (
@@ -58,6 +60,8 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 						title: "Riders Stats",
 						interpolateNulls: true,
 						tooltip: { isHtml: true },
+						chartArea: { width: "80%", height: "85%" },
+						legend: { position: "top" },
 						hAxis: {
 							title: "Hours",
 							format: "#h",
@@ -110,7 +114,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 							align="left"
 							wrapperStyle={{ paddingBottom: "20px" }}
 						/>
-						{applyAllFilters(data, filters).map(rider => (
+						{applyCategoryFilters(data, filters).map(rider => (
 							<Line
 								key={rider.id}
 								type="monotone"
@@ -123,7 +127,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 					</LineChart>
 				</ResponsiveContainer>
 			)}
-		</>
+		</div>
 	)
 }
 

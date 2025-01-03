@@ -2,45 +2,75 @@ import { Filters } from "../interfaces/Filters"
 import { RiderInfo } from "../interfaces/RiderInfo"
 import { RiderStats } from "../interfaces/RiderStats"
 
-export const applyAllFilters = (data: RiderStats[], filters: Filters) => {
-	return data
-		.filter(rider => applyCountryFilter(rider, filters))
-		.filter(rider => applyDisciplineFilter(rider, filters))
-		.filter(rider => applyDivisionFilter(rider, filters))
-		.filter(rider => applyAgeFilter(rider, filters))
-		.filter(rider => applyNamesFilter(rider, filters))
-		.slice(0, filters.numberOfRiders)
+export const applyCategoryFilters = (data: RiderStats[] | RiderInfo[], filters: Filters) => {
+	console.log("filters", filters)
+	const filteredRiders = data
+		.filter(rider => countryFilter(rider, filters))
+		.filter(rider => disciplineFilter(rider, filters))
+		.filter(rider => divisionFilter(rider, filters))
+		.filter(rider => ageFilter(rider, filters))
+	// .filter(rider => namesFilter(rider, filters))
+	console.log("filteredRiders", filteredRiders)
+	return filteredRiders
 }
 
-const applyCountryFilter = (rider: RiderStats, filters: Filters) => {
+export const applyNamesFilter = (data: RiderStats[] | RiderInfo[], filters: Filters) => {
+	return data.filter(rider => namesFilter(rider, filters))
+}
+
+const countryFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {
 	return filters.country ? rider.country === filters.country : true
 }
 
-const applyDisciplineFilter = (rider: RiderStats, filters: Filters) => {
+const disciplineFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {
 	return filters.discipline ? rider.discipline === filters.discipline : true
 }
 
-const applyDivisionFilter = (rider: RiderStats, filters: Filters) => {
+const divisionFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {
 	return filters.division ? rider.division === filters.division : true
 }
 
-const applyAgeFilter = (rider: RiderStats, filters: Filters) => {
+const ageFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {
 	return filters.age ? rider.age === filters.age : true
 }
 
-const applyNamesFilter = (rider: RiderStats, filters: Filters) => {
+const namesFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {
 	return filters.names ? filters.names.some(name => rider.name.includes(name)) : true
 }
 
-export const getRidersList = (data: RiderStats[]): RiderInfo[] => {
-	return data.map((rider, index) => {
-		return {
-			rank: index + 1,
-			name: rider.name,
-			country: rider.country,
-			division: rider.division,
-			discipline: rider.discipline,
-			age: rider.age
-		}
+export const allRidersFilter = () => {
+	return {
+		country: "",
+		discipline: "",
+		division: "",
+		age: "",
+		names: [""]
+	}
+}
+
+export const top10RidersFilter = (data: RiderStats[]) => {
+	return {
+		country: "",
+		discipline: "",
+		division: "",
+		age: "",
+		names: data.slice(0, 10).map(rider => rider.name)
+	}
+}
+
+export const getRidersList = (data: RiderStats[], filters: Filters): RiderInfo[] => {
+	const filteredData = applyCategoryFilters(data, {
+		...filters,
+		names: []
 	})
+
+	return data.map((rider, index) => ({
+		rank: index + 1,
+		name: rider.name,
+		country: rider.country,
+		division: rider.division,
+		discipline: rider.discipline,
+		age: rider.age,
+		selected: filteredData.some(r => r.name === rider.name)
+	}))
 }

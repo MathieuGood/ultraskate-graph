@@ -5,4 +5,5 @@ export interface RiderInfo {
 	division: string
 	discipline: string
 	age: string
+	selected?: boolean
 }

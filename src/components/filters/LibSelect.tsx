@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@mui/material"
+import { FormControl, FormHelperText, MenuItem, Select } from "@mui/material"
 import React from "react"
 
 interface LibSelectProps {
@@ -8,8 +8,7 @@ interface LibSelectProps {
 
 const LibSelect: React.FC<LibSelectProps> = ({ selectedLib, setSelectedLib }) => {
 	return (
-		<>
-			<label htmlFor="libSelect">Library:</label>
+		<FormControl>
 			<Select
 				labelId="libSelect-label"
 				id="libSelect"
@@ -18,7 +17,8 @@ const LibSelect: React.FC<LibSelectProps> = ({ selectedLib, setSelectedLib }) =>
 				<MenuItem value={"google-charts"}>google-charts</MenuItem>
 				<MenuItem value={"recharts"}>recharts</MenuItem>
 			</Select>
-		</>
+			<FormHelperText>Chart Library</FormHelperText>
+		</FormControl>
 	)
 }
 

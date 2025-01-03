@@ -3,29 +3,27 @@ import RidersChart from "./components/RidersChart"
 import ultraSkateData from "./data/ultraskateData.json"
 import { useState } from "react"
 import { UltraEvent } from "./interfaces/UltraEvent"
-import UltraSelect from "./components/UltraSelect"
+import UltraSelect from "./components/filters/UltraSelect"
 import LibSelect from "./components/filters/LibSelect"
+import { Divider } from "@mui/material"
 
 function App() {
 	const events: UltraEvent[] = ultraSkateData
-	const [selectedUltraIndex, setSelectedUltraIndex] = useState<number>(events.length - 3)
+	const [selectedUltraIndex, setSelectedUltraIndex] = useState<number>(events.length - 1)
 	const [selectedLib, setSelectedLib] = useState<string>("google-charts")
 
 	return (
 		<div className="w-full p-4">
-			<h1 className="text-2xl font-bold mb-1">Ultraskate Riders Graph</h1>
-			<div className="flex">
-				<div className="border rounded p-2 mb-1">
-					<UltraSelect
-						selectedUltraIndex={selectedUltraIndex}
-						setSelectedUltraIndex={setSelectedUltraIndex}
-						events={events}
-					/>
-				</div>
-				<div className="border rounded p-2 mb-1">
-					<LibSelect selectedLib={selectedLib} setSelectedLib={setSelectedLib} />
-				</div>
+			<div className="flex gap-2 items-center pb-2">
+				<h1 className="text-2xl font-bold pb-4">Ultraskate Riders Graph</h1>
+				<UltraSelect
+					selectedUltraIndex={selectedUltraIndex}
+					setSelectedUltraIndex={setSelectedUltraIndex}
+					events={events}
+				/>
+				<LibSelect selectedLib={selectedLib} setSelectedLib={setSelectedLib} />
 			</div>
+			<Divider />
 			<RidersChart data={events[selectedUltraIndex].riders} lib={selectedLib} />
 		</div>
 	)

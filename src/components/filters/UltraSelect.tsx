@@ -1,6 +1,6 @@
 import React from "react"
-import { UltraEvent } from "../interfaces/UltraEvent"
-import { MenuItem, Select } from "@mui/material"
+import { UltraEvent } from "../../interfaces/UltraEvent"
+import { FormControl, FormHelperText, MenuItem, Select } from "@mui/material"
 
 interface UltraSelectProps {
 	selectedUltraIndex: number
@@ -14,8 +14,7 @@ const UltraSelect: React.FC<UltraSelectProps> = ({
 	events
 }) => {
 	return (
-		<>
-			<label htmlFor="ultraSelect">Event:</label>
+		<FormControl>
 			<Select
 				labelId="ultraSelect-label"
 				id="ultraSelect"
@@ -27,7 +26,8 @@ const UltraSelect: React.FC<UltraSelectProps> = ({
 					</MenuItem>
 				))}
 			</Select>
-		</>
+			<FormHelperText>Country</FormHelperText>
+		</FormControl>
 	)
 }
 
