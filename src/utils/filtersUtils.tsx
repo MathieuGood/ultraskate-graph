@@ -3,13 +3,13 @@ import { RiderInfo } from "../interfaces/RiderInfo"
 import { RiderStats } from "../interfaces/RiderStats"
 
 export const applyCategoryFilters = (data: RiderStats[] | RiderInfo[], filters: Filters) => {
+	console.log("applyCategoryFilters FUNCTION")
 	console.log("filters", filters)
 	const filteredRiders = data
 		.filter(rider => countryFilter(rider, filters))
 		.filter(rider => disciplineFilter(rider, filters))
 		.filter(rider => divisionFilter(rider, filters))
 		.filter(rider => ageFilter(rider, filters))
-	// .filter(rider => namesFilter(rider, filters))
 	console.log("filteredRiders", filteredRiders)
 	return filteredRiders
 }

@@ -21,13 +21,10 @@ const RiderPicker: React.FC<{
 			id="rider-picker"
 			options={ridersList}
 			value={
-				// If filters contains names, return the riders that match the names
 				filters.names.length > 0 || filters.names[0] !== ""
-					? applyNamesFilter(ridersList, filters)
-					: applyCategoryFilters(ridersList, filters)
+					? (applyNamesFilter(ridersList, filters) as RiderInfo[])
+					: (applyCategoryFilters(ridersList, filters) as RiderInfo[])
 			}
-			// If filters does not contain names, return the category filtered riders
-
 			onChange={(_e, value) => {
 				console.log("Autocomplete onChange", value)
 				console.log(
