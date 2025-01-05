@@ -40,14 +40,12 @@ const namesFilter = (rider: RiderStats | RiderInfo, filters: Filters) => {
 	return filters.names ? filters.names.some(name => rider.name.includes(name)) : true
 }
 
-export const allRidersFilter = () => {
-	return {
-		country: "",
-		discipline: "",
-		division: "",
-		age: "",
-		names: [""]
-	}
+export const allRidersFilter = {
+	country: "",
+	discipline: "",
+	division: "",
+	age: "",
+	names: [""]
 }
 
 export const top10RidersFilter = (data: RiderStats[]) => {
