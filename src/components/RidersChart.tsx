@@ -50,6 +50,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 
 			{lib === "google-charts" && (
 				<Chart
+					loader={<div>Loading Chart...</div>}
 					chartType="LineChart"
 					width={"100%"}
 					height={"600px"}
@@ -75,7 +76,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 							axis: "horizontal",
 							keepInBounds: true,
 							maxZoomIn: 10.0
-						},
+						}
 					}}
 				/>
 			)}

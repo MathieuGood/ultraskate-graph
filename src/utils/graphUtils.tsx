@@ -46,3 +46,23 @@ export const ridersDataToGoogleChartsData = (riders: RiderStats[]) => {
 
 	return googleChartData
 }
+
+
+export const ridersDataToPlotlyData = (riders: RiderStats[]) => {
+	const uniqueHours = getUniqueHours(riders)
+
+	const plotlyData = uniqueHours.map(uniqueHour => {
+		const row: { [key: string]: number | null } = { hour: uniqueHour }
+		riders.forEach(rider => {
+			const indexOfHour = rider.hours.indexOf(uniqueHour)
+			if (indexOfHour !== -1) {
+				row[rider.name] = rider.miles[indexOfHour]
+			} else {
+				row[rider.name] = null
+			}
+		})
+		return row
+	})
+
+	return plotlyData
+}
