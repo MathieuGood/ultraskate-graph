@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react"
 import {getRidersList} from "../../utils/filtersUtils"
 import {RiderInfo} from "../../interfaces/RiderInfo"
 import CountrySelect from "./CountrySelect.tsx";
-import DisciplineSelect from "../DisciplineSelect.tsx";
+import DisciplineSelect from "./DisciplineSelect.tsx";
 import DivisionSelect from "./DivisionSelect.tsx";
 import AgeSelect from "./AgeSelect.tsx";
 

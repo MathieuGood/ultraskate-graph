@@ -1,7 +1,7 @@
 import React from "react";
 import {FormControl, FormHelperText, MenuItem, Select} from "@mui/material";
-import {getDisciplineEmoji} from "../utils/disciplineUtils.tsx";
-import {CategoryFilterSelectProps} from "../interfaces/CategoryFilterSelectProps.tsx";
+import {getDisciplineEmoji} from "../../utils/disciplineUtils.tsx";
+import {CategoryFilterSelectProps} from "../../interfaces/CategoryFilterSelectProps.tsx";
 
 
 const DisciplineSelect: React.FC<CategoryFilterSelectProps> = ({data, filters, setFilters}) => {

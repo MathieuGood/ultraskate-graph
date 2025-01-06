@@ -14,7 +14,7 @@ import { ridersDataToRechartsData, ridersDataToGoogleChartsData } from "../utils
 import { Filters } from "../interfaces/Filters"
 import RidersFilters from "./filters/RidersFilters"
 import { applyCategoryFilters, applyNamesFilter, top10RidersFilter } from "../utils/filtersUtils"
-import { RiderTooltip } from "./RiderTooltip"
+import { RiderTooltipRecharts } from "./RiderTooltipRecharts"
 import Chart from "react-google-charts"
 import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
 
@@ -75,7 +75,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 							axis: "horizontal",
 							keepInBounds: true,
 							maxZoomIn: 10.0
-						}
+						},
 					}}
 				/>
 			)}
@@ -106,7 +106,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 							unit={"h"}
 						/>
 						<YAxis label={{ value: "Miles", angle: -90, position: "insideLeft" }} />
-						<Tooltip content={RiderTooltip} />
+						<Tooltip content={RiderTooltipRecharts} />
 						<Legend
 							layout="horizontal"
 							verticalAlign="top"

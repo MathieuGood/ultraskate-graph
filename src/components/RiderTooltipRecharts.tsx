@@ -1,7 +1,7 @@
 import { TooltipProps } from "recharts"
 import { hoursToTime } from "../utils/dateUtils"
 
-export const RiderTooltip = ({ payload }: TooltipProps<number, string>): JSX.Element | null => {
+export const RiderTooltipRecharts = ({ payload }: TooltipProps<number, string>): JSX.Element | null => {
 	if (!payload || payload.length === 0) return null
 	const hour = payload[0].payload.hour
 	const riders = payload.map(rider => ({
