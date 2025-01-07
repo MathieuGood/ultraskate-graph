@@ -21,7 +21,7 @@ const UltraSelect: React.FC<UltraSelectProps> = ({
 				value={selectedUltraIndex}
 				onChange={e => setSelectedUltraIndex(parseInt(e.target.value as string))}>
 				{events.map((event, index) => (
-					<MenuItem key={event.event_id} value={index}>
+					<MenuItem key={event.event_name} value={index}>
 						{event.event_name}
 					</MenuItem>
 				))}
