@@ -22,10 +22,12 @@ import { applyCategoryFilters, applyNamesFilter, top10RidersFilter } from "../ut
 import { RiderTooltipRecharts } from "./RiderTooltipRecharts"
 import Chart from "react-google-charts"
 import Plot from "react-plotly.js"
-import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
+import { GoogleChartData, PlotlyData, RechartsData } from "../interfaces/ChartData"
 
 const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib }) => {
-	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[]>([])
+	const [chartData, setChartData] = useState<GoogleChartData[] | RechartsData[] | PlotlyData[]>(
+		[]
+	)
 
 	const [filters, setFilters] = useState<Filters>(top10RidersFilter(data))
 
@@ -63,7 +65,7 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 
 			{lib === "plotly" && (
 				<Plot
-					data={chartData}
+					data={chartData as PlotlyData[]}
 					layout={{
 						title: "Riders Stats",
 						width: 800,

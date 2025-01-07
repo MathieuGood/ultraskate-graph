@@ -5,3 +5,9 @@ export interface GoogleChartData extends Array<string | number | null> {
 export interface RechartsData {
 	[key: string]: number | string
 }
+
+export interface PlotlyData {
+	x: number[]
+	y: (number | null)[]
+	name: string
+}
