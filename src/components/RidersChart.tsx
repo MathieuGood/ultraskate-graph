@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+
 import {
 	LineChart,
 	Line,
@@ -10,12 +11,17 @@ import {
 	ResponsiveContainer
 } from "recharts"
 import { RiderStats } from "../interfaces/RiderStats"
-import { ridersDataToRechartsData, ridersDataToGoogleChartsData } from "../utils/graphUtils"
+import {
+	ridersDataToRechartsData,
+	ridersDataToGoogleChartsData,
+	ridersDataToPlotlyData
+} from "../utils/graphUtils"
 import { Filters } from "../interfaces/Filters"
 import RidersFilters from "./filters/RidersFilters"
 import { applyCategoryFilters, applyNamesFilter, top10RidersFilter } from "../utils/filtersUtils"
 import { RiderTooltipRecharts } from "./RiderTooltipRecharts"
 import Chart from "react-google-charts"
+import Plot from "react-plotly.js"
 import { GoogleChartData, RechartsData } from "../interfaces/ChartData"
 
 const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib }) => {
@@ -36,17 +42,49 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 
 		if (lib === "recharts") {
 			const rechartsData = ridersDataToRechartsData(filteredData as RiderStats[])
+			console.log("rechartsData", rechartsData)
 			setChartData(rechartsData)
 		}
 		if (lib === "google-charts") {
 			const googleChartData = ridersDataToGoogleChartsData(filteredData as RiderStats[])
+			console.log("googleChartData", googleChartData)
 			setChartData(googleChartData)
+		}
+		if (lib === "plotly") {
+			const plotlyData = ridersDataToPlotlyData(filteredData as RiderStats[])
+			console.log("plotlyData", plotlyData)
+			setChartData(plotlyData)
 		}
 	}, [filters, data, lib])
 
 	return (
 		<div className="mt-4">
 			<RidersFilters data={data} filters={filters} setFilters={setFilters} />
+
+			{lib === "plotly" && (
+				<Plot
+					data={chartData}
+					layout={{
+						title: "Riders Stats",
+						width: 800,
+						height: 600,
+						xaxis: {
+							title: "Hours",
+							tickvals: Array.from({ length: 25 }, (_, i) => i),
+							ticktext: Array.from({ length: 25 }, (_, i) => i + "h")
+						},
+						yaxis: {
+							title: "Miles"
+						},
+						legend: {
+							x: 0,
+							y: 1,
+							xanchor: "left",
+							yanchor: "bottom"
+						}
+					}}
+				/>
+			)}
 
 			{lib === "google-charts" && (
 				<Chart

@@ -16,6 +16,7 @@ const LibSelect: React.FC<LibSelectProps> = ({ selectedLib, setSelectedLib }) =>
 				onChange={e => setSelectedLib(e.target.value)}>
 				<MenuItem value={"google-charts"}>google-charts</MenuItem>
 				<MenuItem value={"recharts"}>recharts</MenuItem>
+				<MenuItem value={"plotly"}>plotly</MenuItem>
 			</Select>
 			<FormHelperText>Chart Library</FormHelperText>
 		</FormControl>
