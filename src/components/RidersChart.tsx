@@ -47,15 +47,15 @@ const RidersChart: React.FC<{ data: RiderStats[]; lib: string }> = ({ data, lib 
 			console.log("rechartsData", rechartsData)
 			setChartData(rechartsData)
 		}
-		if (lib === "google-charts") {
-			const googleChartData = ridersDataToGoogleChartsData(filteredData as RiderStats[])
-			console.log("googleChartData", googleChartData)
-			setChartData(googleChartData)
-		}
 		if (lib === "plotly") {
 			const plotlyData = ridersDataToPlotlyData(filteredData as RiderStats[])
 			console.log("plotlyData", plotlyData)
 			setChartData(plotlyData)
+		}
+		if (lib === "google-charts") {
+			const googleChartData = ridersDataToGoogleChartsData(filteredData as RiderStats[])
+			console.log("googleChartData", googleChartData)
+			setChartData(googleChartData)
 		}
 	}, [filters, data, lib])
 
